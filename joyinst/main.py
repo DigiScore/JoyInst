@@ -3,7 +3,8 @@ import tomllib
 import toml
 from enum import Enum
 import pygame as pg
-import pygame.font
+
+# import pygame.font
 import pygame_widgets
 from pygame_widgets.dropdown import Dropdown
 from pygame_widgets.textbox import TextBox
@@ -32,23 +33,23 @@ class TextPrint(object):
         self.font = pg.font.Font("assets/ui/fonts/IBMPlexSansCondensed-Medium.ttf", 28)
 
     def print(self, my_screen, text_string):
-        """ Draw text onto the screen. """
+        """Draw text onto the screen."""
         text_bitmap = self.font.render(text_string, True, Colors.BLACK.value)
         my_screen.blit(text_bitmap, [self.x_pos, self.y_pos])
         self.y_pos += self.line_height
 
     def reset(self):
-        """ Reset text to the top of the screen. """
+        """Reset text to the top of the screen."""
         self.x_pos = 10
         self.y_pos = 10
         self.line_height = 30
 
     def indent(self):
-        """ Indent the next line of text """
+        """Indent the next line of text"""
         self.x_pos += 10
 
     def unindent(self):
-        """ Unindent the next line of text """
+        """Unindent the next line of text"""
         self.x_pos -= 10
 
 
@@ -65,14 +66,15 @@ class Arrow(Enum):
     SE U+EB6B arrowWhiteDownRight
     S U+EB6C arrowWhiteDown
     """
-    N = 'arrowBlackUp'
-    NW = 'arrowBlackUpLeft'
-    NE = 'arrowBlackUpRight'
-    W = 'arrowBlackLeft'
-    E = 'arrowBlackRight'
-    SW = 'arrowBlackDownLeft'
-    SE = 'arrowBlackDownRight'
-    S = 'arrowBlackDown'
+
+    N = "arrowBlackUp"
+    NW = "arrowBlackUpLeft"
+    NE = "arrowBlackUpRight"
+    W = "arrowBlackLeft"
+    E = "arrowBlackRight"
+    SW = "arrowBlackDownLeft"
+    SE = "arrowBlackDownRight"
+    S = "arrowBlackDown"
 
 
 class Colour(Enum):
@@ -93,14 +95,15 @@ class Colour(Enum):
     c = red N or S
 
     """
-    N = '#ff0000'
-    NE = '#33cc33'
-    NW = '#ffff66'
-    W = '#0099ff'
-    E = '#000000'
-    SE = '#d9d9d9'
-    SW = '#996633'
-    S = '#ff0000'
+
+    N = "#ff0000"
+    NE = "#33cc33"
+    NW = "#ffff66"
+    W = "#0099ff"
+    E = "#000000"
+    SE = "#d9d9d9"
+    SW = "#996633"
+    S = "#ff0000"
 
 
 class Solfa(Enum):
@@ -110,15 +113,16 @@ class Solfa(Enum):
     Flats and sharps COULD be represented by 'a' and 'e'
     or simply 'b' and '#'
     """
+
     # todo - flats and sharps
-    N = 'do'
-    NW = 're'
-    NE = 'mi'
-    W = 'fa'
-    E = 'sol'
-    SW = 'la'
-    SE = 'ti'
-    S = 'do'
+    N = "do"
+    NW = "re"
+    NE = "mi"
+    W = "fa"
+    E = "sol"
+    SW = "la"
+    SE = "ti"
+    S = "do"
 
 
 class UI(Joystick, Game):
@@ -145,16 +149,24 @@ class UI(Joystick, Game):
 
         # ui images
         self.ui_background_dots = pg.image.load("assets/ui/images/mascot/bg_dots.svg")
-        self.ui_background_mouth_character = pg.image.load("assets/ui/images/mascot/character_mouth.png")
-        self.ui_background_character = pg.image.load("assets/ui/images/mascot/character_body.png")
-        self.ui_background_hands_character = pg.image.load("assets/ui/images/mascot/character_hands.svg")
+        self.ui_background_mouth_character = pg.image.load(
+            "assets/ui/images/mascot/character_mouth.png"
+        )
+        self.ui_background_character = pg.image.load(
+            "assets/ui/images/mascot/character_body.png"
+        )
+        self.ui_background_hands_character = pg.image.load(
+            "assets/ui/images/mascot/character_hands.svg"
+        )
         # self.ui_background_life_counter = [pg.image.load("assets/ui/images/life_counter/0_lives_left.svg"),
         #                                    pg.image.load("assets/ui/images/life_counter/1_live_left.svg"),
         #                                    pg.image.load("assets/ui/images/life_counter/2_lives_left.svg"),
         #                                    pg.image.load("assets/ui/images/life_counter/3_lives_left.svg")]
 
         # font
-        self.ibm_plex_condensed_font = pygame.font.Font("assets/ui/fonts/IBMPlexSansCondensed-Medium.ttf", 22)
+        self.ibm_plex_condensed_font = pg.font.Font(
+            "assets/ui/fonts/IBMPlexSansCondensed-Medium.ttf", 22
+        )
 
         # set game params
         self.playing_game = False
@@ -177,111 +189,161 @@ class UI(Joystick, Game):
         pg.joystick.init()
 
         self.play_mode = Dropdown(
-            self.screen, 204, 50, 385, 50, name='     PLAY MODE',
+            self.screen,
+            204,
+            50,
+            385,
+            50,
+            name="     PLAY MODE",
             choices=[
-                '     OPEN PLAY',
-                '     LEARN GAME',
-
+                "     OPEN PLAY",
+                "     LEARN GAME",
             ],
             colour=Colors.DROPDOWN.value,
             hoverColour=Colors.DROPDOWN_HOVER.value,
             pressedColour=Colors.DROPDOWN_HOVER.value,
             values=[1, 2],
-            direction='down',
-            textHAlign='left',
-            font=self.ibm_plex_condensed_font
+            direction="down",
+            textHAlign="left",
+            font=self.ibm_plex_condensed_font,
         )
 
         self.instrument_dropdown = Dropdown(
-            self.screen, 610, 50, 385, 50, name='     SELECT INSTRUMENT',
+            self.screen,
+            610,
+            50,
+            385,
+            50,
+            name="     SELECT INSTRUMENT",
             choices=[
                 "     VOCALS/FX's",
-                '     HMMM',
-                '     MOOG',
-                '     HI PAD SLIDE A',
-                '     TOM SLIDER C&A',
-                '     LO PAD SLIDE A',
-                '     SHOFARS',
-                '     KALIMBA',
-                '     FLUTE W WARBLE',
-                '     FLUTE W BLOW',
-                '     BASS',
+                "     HMMM",
+                "     MOOG",
+                "     HI PAD SLIDE A",
+                "     TOM SLIDER C&A",
+                "     LO PAD SLIDE A",
+                "     SHOFARS",
+                "     KALIMBA",
+                "     FLUTE W WARBLE",
+                "     FLUTE W BLOW",
+                "     BASS",
             ],
             colour=Colors.DROPDOWN.value,
             hoverColour=Colors.DROPDOWN_HOVER.value,
             pressedColour=Colors.DROPDOWN_HOVER.value,
             values=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-            direction='down',
-            textHAlign='left',
-            font=self.ibm_plex_condensed_font
+            direction="down",
+            textHAlign="left",
+            font=self.ibm_plex_condensed_font,
         )
 
         self.level_dropdown = Dropdown(
-            self.screen, 1015, 50, 192, 50, name='     LEVEL',
+            self.screen,
+            1015,
+            50,
+            192,
+            50,
+            name="     LEVEL",
             choices=[
-                '     5',
-                '     10',
-                '     15',
-                '     20',
-                '     25',
-                '     30',
-                '     35',
-                '     40',
-                '     45',
-                '     50',
-                '     55',
-                '     60',
-                '     65',
-                '     70',
-                '     75',
-                '     80',
-                '     85',
-                '     90',
-                '     95',
-                '     100',
+                "     5",
+                "     10",
+                "     15",
+                "     20",
+                "     25",
+                "     30",
+                "     35",
+                "     40",
+                "     45",
+                "     50",
+                "     55",
+                "     60",
+                "     65",
+                "     70",
+                "     75",
+                "     80",
+                "     85",
+                "     90",
+                "     95",
+                "     100",
             ],  # "user_levels_str,
             colour=Colors.DROPDOWN.value,
             hoverColour=Colors.DROPDOWN_HOVER.value,
             pressedColour=Colors.DROPDOWN_HOVER.value,
-            values=[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],  # user_levels_list,
-            direction='down',
-            textHAlign='left',
-            font=self.ibm_plex_condensed_font
+            values=[
+                5,
+                10,
+                15,
+                20,
+                25,
+                30,
+                35,
+                40,
+                45,
+                50,
+                55,
+                60,
+                65,
+                70,
+                75,
+                80,
+                85,
+                90,
+                95,
+                100,
+            ],  # user_levels_list,
+            direction="down",
+            textHAlign="left",
+            font=self.ibm_plex_condensed_font,
         )
 
         self.user_names = Dropdown(
-            self.screen, 294, 50, 385, 50, name='     SELECT YOUR USER',
-            choices=[f'     {user}' for user in self.users],
+            self.screen,
+            294,
+            50,
+            385,
+            50,
+            name="     SELECT YOUR USER",
+            choices=[f"     {user}" for user in self.users],
             colour=Colors.DROPDOWN.value,
             hoverColour=Colors.DROPDOWN_HOVER.value,
             pressedColour=Colors.DROPDOWN_HOVER.value,
             values=[user for user in self.users],
-            direction='down',
-            textHAlign='left',
-            font=self.ibm_plex_condensed_font
+            direction="down",
+            textHAlign="left",
+            font=self.ibm_plex_condensed_font,
         )
 
-        self.new_user = TextBox(self.screen, 700, 50, 385, 53,
-                                colour=Colors.DROPDOWN.value,
-                                fontSize=40,
-                                textOffsetLeft=1000,
-                                borderColour=(0, 0, 0),
-                                textColour=(0, 0, 0),
-                                borderThickness=3,
-                                font=self.ibm_plex_condensed_font,
-                                placeholderText="ENTER NEW USER NAME",
-                                onTextChanged=self.reset_user_names_dropdown
-                                )
+        self.new_user = TextBox(
+            self.screen,
+            700,
+            50,
+            385,
+            53,
+            colour=Colors.DROPDOWN.value,
+            fontSize=40,
+            textOffsetLeft=1000,
+            borderColour=(0, 0, 0),
+            textColour=(0, 0, 0),
+            borderThickness=3,
+            font=self.ibm_plex_condensed_font,
+            placeholderText="ENTER NEW USER NAME",
+            onTextChanged=self.reset_user_names_dropdown,
+        )
 
-        self.play_button = Button(self.screen, 1105, 50, 100, 53,
-                                  text="PLAY!",
-                                  font=self.ibm_plex_condensed_font,
-                                  colour=Colors.DROPDOWN.value,
-                                  hoverColour=Colors.DROPDOWN_HOVER.value,
-                                      pressedColour=Colors.DROPDOWN_HOVER.value,
-                                  borderThickness=3,
-                                  onClick=self.mainloop,
-                                  )
+        self.play_button = Button(
+            self.screen,
+            1105,
+            50,
+            100,
+            53,
+            text="PLAY!",
+            font=self.ibm_plex_condensed_font,
+            colour=Colors.DROPDOWN.value,
+            hoverColour=Colors.DROPDOWN_HOVER.value,
+            pressedColour=Colors.DROPDOWN_HOVER.value,
+            borderThickness=3,
+            onClick=self.mainloop,
+        )
 
         # setup inst & notation vars
         self.inst = self.instrument
@@ -326,13 +388,13 @@ class UI(Joystick, Game):
         if not self.actual_user:
             self.level = 0
             if not self.new_user.getText():
-                self.actual_user = 'GUEST'
+                self.actual_user = "GUEST"
             else:
                 self.actual_user = self.new_user.getText()
-            self.users.update({self.actual_user: {'level': -1}})
+            self.users.update({self.actual_user: {"level": -1}})
             self.update_user_level()
         else:
-            self.level = self.users[self.actual_user]['level']
+            self.level = self.users[self.actual_user]["level"]
 
         # Get ready to print
         text_print = TextPrint()
@@ -356,8 +418,8 @@ class UI(Joystick, Game):
                 if event.type == pg.QUIT:
                     done = True
 
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_t:
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_t:
                         self.show_text = not self.show_text
 
                 # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN
@@ -426,21 +488,22 @@ class UI(Joystick, Game):
                 # joystick.init()
 
                 # Parse data with Joystick class
-                self.get_data(joystick,
-                              self.arrow_help,
-                              self.name_help
-                              )
+                self.get_data(joystick, self.arrow_help, self.name_help)
 
                 # draw the backgrounds.
                 self.screen.blit(self.ui_background_dots, (0, 0))
                 self.screen.blit(self.ui_background_mouth_character, (326, 359))
 
                 if self.show_text:
-                    text_print.print(self.screen, "Level    {}".format(self.level+1))
-                    text_print.print(self.screen, "Sub-level    {}".format(self.sub_level))
+                    text_print.print(self.screen, "Level    {}".format(self.level + 1))
+                    text_print.print(
+                        self.screen, "Sub-level    {}".format(self.sub_level)
+                    )
                     text_print.print(self.screen, "Guesses    {}".format(self.tries))
                     text_print.print(self.screen, "Lives    {}".format(self.lives))
-                    text_print.print(self.screen, "Feedback    {}".format(self.feedback))
+                    text_print.print(
+                        self.screen, "Feedback    {}".format(self.feedback)
+                    )
 
                 #############
                 # JOYSTICK LOOP
@@ -484,7 +547,7 @@ class UI(Joystick, Game):
 
                 else:
                     # put empty stave on screen
-                    path_to_new_image = 'assets/ui/images/empty_staves/empty_treble.png'
+                    path_to_new_image = "assets/ui/images/empty_staves/empty_treble.png"
                     self.show_note(path_to_new_image)
 
                 self.screen.blit(self.ui_background_character, (0, 164))
@@ -497,12 +560,16 @@ class UI(Joystick, Game):
                 # text_print.print(self.screen, "note   {}".format(self.neopitch))
                 # text_print.print(self.screen, "solfa  {}".format(solfa))
                 if self.show_text:
-                    text_print.print(self.screen, "Level    {}".format(self.level+1))
-                    text_print.print(self.screen, "Sub-level    {}".format(self.sub_level))
+                    text_print.print(self.screen, "Level    {}".format(self.level + 1))
+                    text_print.print(
+                        self.screen, "Sub-level    {}".format(self.sub_level)
+                    )
                     # text_print.print(self.screen, "Goes at sub level    {}".format(self.sub_level_rounds))
                     text_print.print(self.screen, "Guesses    {}".format(self.tries))
                     text_print.print(self.screen, "Lives    {}".format(self.lives))
-                    text_print.print(self.screen, "Feedback    {}".format(self.feedback))
+                    text_print.print(
+                        self.screen, "Feedback    {}".format(self.feedback)
+                    )
 
                 #############
                 # GAME IMAGE
@@ -516,7 +583,9 @@ class UI(Joystick, Game):
 
                 else:
                     # if not playing put empty game stave on screen
-                    self.game_note_path = 'assets/ui/images/empty_staves/empty_treble.png'
+                    self.game_note_path = (
+                        "assets/ui/images/empty_staves/empty_treble.png"
+                    )
 
                 self.show_game_note(self.game_note_path)
                 self.screen.blit(self.ui_background_hands_character, (0, 475))
@@ -550,7 +619,7 @@ class UI(Joystick, Game):
 
         # blank the game staff
         previous_game_note_path = self.game_note_path
-        self.game_note_path = 'assets/ui/images/empty_staves/empty_treble.png'
+        self.game_note_path = "assets/ui/images/empty_staves/empty_treble.png"
 
         # update game status depending on result
         self.update_game_states(result)

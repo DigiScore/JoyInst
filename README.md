@@ -80,6 +80,16 @@ To do this, click in the search box on the task bar, run the command 'Edit the s
    ```sh
    brew install fluidsynth
    ```
+3. Make sure a supported Python version is installed (3.10–3.13). `pygame` does not
+   yet ship prebuilt wheels for newer Python releases (e.g. 3.14) — if `poetry`
+   picks one of those up, `pygame` gets built from source without image/font
+   support and the app fails with errors like `pygame.error: File is not a
+   Windows BMP file`. This repo's `.python-version` file pins the version poetry
+   should use; if needed, install it explicitly, e.g.:
+   ```sh
+   brew install python@3.13
+   poetry env use /opt/homebrew/bin/python3.13
+   ```
  
 –––––––––––––––––––––
 
